@@ -1,27 +1,23 @@
 using ArchiSteamFarm.Core;
 using ArchiSteamFarm.Plugins.Interfaces;
 using ArchiSteamFarm.Steam;
-using ArchiSteamFarm.Steam.Data;
-using ArchiSteamFarm.Steam.Exchange;
-using ASFBuffBot.Data;
+using ASFPasswordChanger.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.ComponentModel;
 using System.Composition;
 using System.Text;
 
-namespace ASFBuffBot;
+namespace ASFPasswordChanger;
 
 [Export(typeof(IPlugin))]
-internal sealed class ASFBuffBot : IASF, IBotCommand2, IBotConnection, IBotTradeOffer, IBotTradeOfferResults
+internal sealed class ASFPasswordChanger : IASF, IBotCommand2, IBotConnection
 {
-    public string Name => nameof(ASFBuffBot);
+    public string Name => nameof(ASFPasswordChanger);
     public Version Version => Utils.MyVersion;
 
     [JsonProperty]
     public static PluginConfig Config => Utils.Config;
-
-    private static Timer? BuffTimer;
 
     private static Timer? StatisticTimer;
 
@@ -30,7 +26,7 @@ internal sealed class ASFBuffBot : IASF, IBotCommand2, IBotConnection, IBotTrade
     /// </summary>
     /// <param name="additionalConfigProperties"></param>
     /// <returns></returns>
-    public async Task OnASFInit(IReadOnlyDictionary<string, JToken>? additionalConfigProperties = null)
+    public Task OnASFInit(IReadOnlyDictionary<string, JToken>? additionalConfigProperties = null)
     {
         PluginConfig? config = null;
 
@@ -38,7 +34,7 @@ internal sealed class ASFBuffBot : IASF, IBotCommand2, IBotConnection, IBotTrade
         {
             foreach ((string configProperty, JToken configValue) in additionalConfigProperties)
             {
-                if (configProperty == nameof(ASFBuffBot) && configValue.Type == JTokenType.Object)
+                if (configProperty == nameof(ASFPasswordChanger) && configValue.Type == JTokenType.Object)
                 {
                     try
                     {
@@ -88,64 +84,13 @@ internal sealed class ASFBuffBot : IASF, IBotCommand2, IBotConnection, IBotTrade
             }
         }
 
-        if (Config.BuffCheckInterval < 30)
-        {
-            Config.BuffCheckInterval = 30;
-            warning.AppendLine(Static.Line);
-            warning.AppendLine(Langs.BuffCheckIntervalWarn);
-            warning.AppendLine(Static.Line);
-        }
-
-        if (Config.BotInterval < 5)
-        {
-            Config.BotInterval = 5;
-            warning.AppendLine(Static.Line);
-            warning.AppendLine(Langs.BotIntervalWarn);
-            warning.AppendLine(Static.Line);
-        }
-
-        var succ = await Utils.LoadCookiesFile().ConfigureAwait(false);
-        if (!succ || Utils.BuffCookies.Count == 0)
-        {
-            warning.AppendLine(Static.Line);
-            warning.AppendLine(Langs.BuffCookiesWarn);
-            warning.AppendLine(Langs.BuffCookiesWarn2);
-            warning.AppendLine(Langs.BuffCookiesWarn3);
-            warning.AppendLine(Langs.BuffCookiesWarn4);
-            warning.AppendLine(Static.Line);
-        }
-
-        if (string.IsNullOrEmpty(Config.CustomUserAgent))
-        {
-            Config.CustomUserAgent = Static.DefaultUserAgent;
-        }
-
         if (warning.Length > 0)
         {
             warning.Insert(0, Environment.NewLine);
             Utils.Logger.LogGenericWarning(warning.ToString());
         }
 
-        BuffTimer = new Timer(
-           async (_) =>
-           {
-               var bots = Bot.BotsReadOnly;
-               if (bots != null)
-               {
-                   foreach (var (_, bot) in bots)
-                   {
-                       if (Utils.BuffCookies.ContainsKey(bot.BotName))
-                       {
-                           await Core.Handler.CheckDeliver(bot).ConfigureAwait(false);
-                           await Task.Delay(TimeSpan.FromSeconds(Utils.Config.BotInterval)).ConfigureAwait(false);
-                       }
-                   }
-               }
-           },
-           null,
-           TimeSpan.FromSeconds(30),
-           TimeSpan.FromSeconds(Config.BuffCheckInterval)
-       );
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -157,13 +102,13 @@ internal sealed class ASFBuffBot : IASF, IBotCommand2, IBotConnection, IBotTrade
         StringBuilder message = new("\n");
         message.AppendLine(Static.Line);
         message.AppendLine(Static.Logo);
-        message.AppendLine(string.Format(Langs.PluginVer, nameof(ASFBuffBot), Utils.MyVersion.ToString()));
+        message.AppendLine(string.Format(Langs.PluginVer, nameof(ASFPasswordChanger), Utils.MyVersion.ToString()));
         message.AppendLine(Langs.PluginContact);
         message.AppendLine(Langs.PluginInfo);
         message.AppendLine(Static.Line);
 
         string pluginFolder = Path.GetDirectoryName(Utils.MyLocation) ?? ".";
-        string backupPath = Path.Combine(pluginFolder, $"{nameof(ASFBuffBot)}.bak");
+        string backupPath = Path.Combine(pluginFolder, $"{nameof(ASFPasswordChanger)}.bak");
         bool existsBackup = File.Exists(backupPath);
         if (existsBackup)
         {
@@ -198,7 +143,6 @@ internal sealed class ASFBuffBot : IASF, IBotCommand2, IBotConnection, IBotTrade
     /// <param name="access"></param>
     /// <param name="message"></param>
     /// <param name="args"></param>
-    /// <param name="steamId"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
     private static async Task<string?> ResponseCommand(Bot bot, EAccess access, string message, string[] args)
@@ -227,31 +171,11 @@ internal sealed class ASFBuffBot : IASF, IBotCommand2, IBotConnection, IBotTrade
             case 1: //不带参数
                 switch (cmd)
                 {
-                    //Core
-                    case "VALIDCOOKIES" when access >= EAccess.Master:
-                    case "VC" when access >= EAccess.Master:
-                        return await Core.Command.ResponseValidCoolies(bot).ConfigureAwait(false);
+                    ////Core
+                    //case "CHANGEPASSWORD" when access >= EAccess.Master:
+                    //case "CP" when access >= EAccess.Master:
+                    //    return await Core.Command.ResponseTest(bot).ConfigureAwait(false);
 
-                    case "DELETECOOKIES" when access >= EAccess.Master:
-                    case "DC" when access >= EAccess.Master:
-                        return await Core.Command.ResponseDeleteCoolies(bot).ConfigureAwait(false);
-
-                    case "COOKIESSTATUS" when access >= EAccess.Master:
-                    case "CS" when access >= EAccess.Master:
-                        return await Core.Command.ResponseBotStatus(bot).ConfigureAwait(false);
-
-                    //Update
-                    case "ASFBUFFBOT" when access >= EAccess.FamilySharing:
-                    case "ABB" when access >= EAccess.FamilySharing:
-                        return Update.Command.ResponseASFBuffBotVersion();
-
-                    case "ABBVERSION" when access >= EAccess.Operator:
-                    case "ABBV" when access >= EAccess.Operator:
-                        return await Update.Command.ResponseCheckLatestVersion().ConfigureAwait(false);
-
-                    case "ABBUPDATE" when access >= EAccess.Owner:
-                    case "ABBU" when access >= EAccess.Owner:
-                        return await Update.Command.ResponseUpdatePlugin().ConfigureAwait(false);
 
                     default:
                         return null;
@@ -260,25 +184,12 @@ internal sealed class ASFBuffBot : IASF, IBotCommand2, IBotConnection, IBotTrade
                 switch (cmd)
                 {
                     //Core
-                    case "VALIDCOOKIES" when access >= EAccess.Master:
-                    case "VC" when access >= EAccess.Master:
-                        return await Core.Command.ResponseValidCoolies(Utilities.GetArgsAsText(args, 1, ",")).ConfigureAwait(false);
-
-                    case "DELETECOOKIES" when access >= EAccess.Master:
-                    case "DC" when access >= EAccess.Master:
-                        return await Core.Command.ResponseDeleteCoolies(Utilities.GetArgsAsText(args, 1, ",")).ConfigureAwait(false);
-
-                    case "COOKIESSTATUS" when access >= EAccess.Master:
-                    case "CS" when access >= EAccess.Master:
-                        return await Core.Command.ResponseBotStatus(Utilities.GetArgsAsText(args, 1, ",")).ConfigureAwait(false);
-
-                    case "UPDATECOOKIES" when access >= EAccess.Master:
-                    case "UC" when access >= EAccess.Master:
-                        return await Core.Command.ResponseUpdateCoolies(Utilities.GetArgsAsText(message, 1)).ConfigureAwait(false);
-
-                    case "UPDATECOOKIESBOT" when argLength >= 3 && access >= EAccess.Master:
-                    case "UCB" when argLength >= 3 && access >= EAccess.Master:
-                        return await Core.Command.ResponseUpdateCoolies(args[1], Utilities.GetArgsAsText(message, 2)).ConfigureAwait(false);
+                    case "CHANGEPASSWORD" when argLength == 3 && access >= EAccess.Master:
+                    case "CP" when argLength == 3 && access >= EAccess.Master:
+                        return await Core.Command.ResponseTest(args[1], args[2]).ConfigureAwait(false);
+                    case "CHANGEPASSWORD" when argLength == 2 && access >= EAccess.Master:
+                    case "CP" when argLength == 2 && access >= EAccess.Master:
+                        return await Core.Command.ResponseTest(bot, args[1]).ConfigureAwait(false);
 
                     default:
                         return null;
@@ -343,47 +254,13 @@ internal sealed class ASFBuffBot : IASF, IBotCommand2, IBotConnection, IBotTrade
         }
     }
 
-    /// <summary>
-    /// 收到报价
-    /// </summary>
-    /// <param name="bot"></param>
-    /// <param name="tradeOffer"></param>
-    /// <returns></returns>
-    public Task<bool> OnBotTradeOffer(Bot bot, TradeOffer tradeOffer)
-    {
-        if (Utils.BuffCookies.ContainsKey(bot.BotName))
-        {
-            Core.Handler.AddTradeCache(bot, tradeOffer);
-        }
-        return Task.FromResult(false);
-    }
-
-    /// <summary>
-    /// 报价完成
-    /// </summary>
-    /// <param name="bot"></param>
-    /// <param name="tradeResults"></param>
-    /// <returns></returns>
-    public Task OnBotTradeOfferResults(Bot bot, IReadOnlyCollection<ParseTradeResult> tradeResults)
-    {
-        return Task.CompletedTask;
-    }
-
     public Task OnBotDisconnected(Bot bot, SteamKit2.EResult reason)
     {
-        if (Utils.BuffCookies.ContainsKey(bot.BotName))
-        {
-            Core.Handler.ClearTradeCache(bot);
-        }
         return Task.CompletedTask;
     }
 
     public Task OnBotLoggedOn(Bot bot)
     {
-        if (Utils.BuffCookies.ContainsKey(bot.BotName))
-        {
-            Core.Handler.InitTradeCache(bot);
-        }
         return Task.CompletedTask;
     }
 }

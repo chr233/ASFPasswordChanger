@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace ASFBuffBot.Data;
+namespace ASFPasswordChanger.Data;
 
 internal sealed record GitHubReleaseResponse
 {

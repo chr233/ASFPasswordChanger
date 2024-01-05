@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ASFBuffBot.Localization {
+namespace ASFPasswordChanger.Localization {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace ASFBuffBot.Localization {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ASFBuffBot.Localization.Static", typeof(Static).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ASFPasswordChanger.Localization.Static", typeof(Static).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

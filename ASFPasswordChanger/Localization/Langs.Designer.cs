@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ASFBuffBot.Localization {
+namespace ASFPasswordChanger.Localization {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace ASFBuffBot.Localization {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ASFBuffBot.Localization.Langs", typeof(Langs).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ASFPasswordChanger.Localization.Langs", typeof(Langs).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -466,7 +466,7 @@ namespace ASFBuffBot.Localization {
         }
         
         /// <summary>
-        ///   查找类似 ASFBuffBot 遇到错误, 日志如下 的本地化字符串。
+        ///   查找类似 ASFPasswordChanger 遇到错误, 日志如下 的本地化字符串。
         /// </summary>
         internal static string ErrorLogTitle {
             get {
