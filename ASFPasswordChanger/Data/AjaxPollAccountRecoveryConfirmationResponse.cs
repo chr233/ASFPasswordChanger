@@ -1,11 +1,11 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ASFPasswordChanger.Data;
 public sealed record AjaxPollAccountRecoveryConfirmationResponse
 {
-    [JsonProperty(PropertyName = "continue")]
+    [JsonPropertyName("continue")]
     public bool Continue { get; set; }
 
-    [JsonProperty(PropertyName = "success")]
+    [JsonPropertyName("success")]
     public bool Success { get; set; }
 }

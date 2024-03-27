@@ -1,20 +1,20 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ASFPasswordChanger.Data;
 public sealed record GetRsaKeyResponse
 {
-    [JsonProperty(PropertyName = "success")]
+    [JsonPropertyName("success")]
     public bool Success { get; set; }
 
-    [JsonProperty(PropertyName = "publickey_mod")]
+    [JsonPropertyName("publickey_mod")]
     public string? PublicKeyMod { get; set; }
 
-    [JsonProperty(PropertyName = "publickey_exp")]
+    [JsonPropertyName("publickey_exp")]
     public string? PublicKeyExp { get; set; }
 
-    [JsonProperty(PropertyName = "timestamp")]
+    [JsonPropertyName("timestamp")]
     public string? TimeStamp { get; set; }
 
-    [JsonProperty(PropertyName = "token_gid")]
+    [JsonPropertyName("token_gid")]
     public string? TokenGid { get; set; }
 }

@@ -144,21 +144,6 @@
   <data name="CurrentLanguage" xml:space="preserve">
     <value>ru-RU</value>
   </data>
-  <data name="GetReleaseInfoFailed" xml:space="preserve">
-    <value>Не удалось получить информацию о выпуске!</value>
-  </data>
-  <data name="ErrorLogPluginVersion" xml:space="preserve">
-    <value> - Версия плагина: {0}</value>
-  </data>
-  <data name="ASFECurrentVersion" xml:space="preserve">
-    <value>Текущая версия: {0}</value>
-  </data>
-  <data name="ASFEOnlineVersion" xml:space="preserve">
-    <value>Последняя версия: {0}</value>
-  </data>
-  <data name="ASFEPluginVersion" xml:space="preserve">
-    <value> - Подключенная версия: {0}</value>
-  </data>
   <data name="Assert" xml:space="preserve">
     <value> - Assets: </value>
   </data>
@@ -173,12 +158,6 @@
   </data>
   <data name="CleanUpOldBackupFailed" xml:space="preserve">
     <value>Не удалось очистить старые бекапы плагина</value>
-  </data>
-  <data name="ASFEUpdateTips" xml:space="preserve">
-    <value>Используй команду "ASFEUPDATE" / "AU" для обновления плагина</value>
-  </data>
-  <data name="ASFEVersionTips" xml:space="preserve">
-    <value>Используй команду "ASFEVERSION" / "AV" чтобы проверить последнюю версию плагина</value>
   </data>
   <data name="ErrorLogAccess" xml:space="preserve">
     <value> - Access: {0}</value>

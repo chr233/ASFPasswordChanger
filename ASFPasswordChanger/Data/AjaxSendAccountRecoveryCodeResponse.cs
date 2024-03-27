@@ -1,8 +1,8 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ASFPasswordChanger.Data;
 public sealed record AjaxSendAccountRecoveryCodeResponse
 {
-    [JsonProperty(PropertyName = "success")]
+    [JsonPropertyName("success")]
     public bool Success { get; set; }
 }

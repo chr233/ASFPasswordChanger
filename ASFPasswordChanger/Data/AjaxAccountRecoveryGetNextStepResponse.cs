@@ -1,8 +1,8 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ASFPasswordChanger.Data;
 public sealed record AjaxAccountRecoveryGetNextStepResponse
 {
-    [JsonProperty(PropertyName = "redirect")]
+    [JsonPropertyName("redirect")]
     public string? Redirect { get; set; }
 }

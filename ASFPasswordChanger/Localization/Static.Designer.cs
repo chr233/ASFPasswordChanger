@@ -77,20 +77,5 @@ namespace ASFPasswordChanger.Localization {
                 return ResourceManager.GetString("Line", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   查找类似   ____  _____ _____  ____   __ __  _____  _____  ____    ___   ______ 
-        /// /    |/ ___/|     ||    \ |  |  ||     ||     ||    \  /   \ |      |
-        ///|  o  (   \_ |   __||  o  )|  |  ||   __||   __||  o  )|     ||      |
-        ///|     |\__  ||  |_  |     ||  |  ||  |_  |  |_  |     ||  O  ||_|  |_|
-        ///|  _  |/  \ ||   _] |  O  ||  :  ||   _] |   _] |  O  ||     |  |  |  
-        ///|  |  |\    ||  |   |     ||     ||  |   |  |   |     ||     |  |  |  
-        ///|__|__| \___||__|   |_____| \__,_||__|   |__|   |_____| \___/   |__| 的本地化字符串。
-        /// </summary>
-        internal static string Logo {
-            get {
-                return ResourceManager.GetString("Logo", resourceCulture);
-            }
-        }
     }
 }

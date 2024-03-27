@@ -61,24 +61,6 @@ namespace ASFPasswordChanger.Localization {
         }
         
         /// <summary>
-        ///   查找类似 同意报价成功, 无需两步验证, ID: {0} 的本地化字符串。
-        /// </summary>
-        internal static string AcceptTradeSuccess {
-            get {
-                return ResourceManager.GetString("AcceptTradeSuccess", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 同意报价成功, 需要两步验证, ID: {0} 的本地化字符串。
-        /// </summary>
-        internal static string AcceptTradeSuccess2FaRequired {
-            get {
-                return ResourceManager.GetString("AcceptTradeSuccess2FaRequired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 当前已经是最新版本, 无需更新插件 的本地化字符串。
         /// </summary>
         internal static string AlreadyLatest {
@@ -88,56 +70,20 @@ namespace ASFPasswordChanger.Localization {
         }
         
         /// <summary>
-        ///   查找类似 接受 的本地化字符串。
+        ///   查找类似 ASFEBridge 注册失败 的本地化字符串。
         /// </summary>
-        internal static string Approve {
+        internal static string ASFEnhanceRegisterFailed {
             get {
-                return ResourceManager.GetString("Approve", resourceCulture);
+                return ResourceManager.GetString("ASFEnhanceRegisterFailed", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 当前版本: {0} 的本地化字符串。
+        ///   查找类似 ASFEBridge 注册成功 的本地化字符串。
         /// </summary>
-        internal static string ASFECurrentVersion {
+        internal static string ASFEnhanceRegisterSuccess {
             get {
-                return ResourceManager.GetString("ASFECurrentVersion", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 在线版本: {0} 的本地化字符串。
-        /// </summary>
-        internal static string ASFEOnlineVersion {
-            get {
-                return ResourceManager.GetString("ASFEOnlineVersion", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  - 插件版本: {0} 的本地化字符串。
-        /// </summary>
-        internal static string ASFEPluginVersion {
-            get {
-                return ResourceManager.GetString("ASFEPluginVersion", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 使用命令 ASFEUPDATE / AU 自动更新插件 的本地化字符串。
-        /// </summary>
-        internal static string ASFEUpdateTips {
-            get {
-                return ResourceManager.GetString("ASFEUpdateTips", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 使用命令 ASFEVERSION / AV 检查插件更新 的本地化字符串。
-        /// </summary>
-        internal static string ASFEVersionTips {
-            get {
-                return ResourceManager.GetString("ASFEVersionTips", resourceCulture);
+                return ResourceManager.GetString("ASFEnhanceRegisterSuccess", resourceCulture);
             }
         }
         
@@ -147,114 +93,6 @@ namespace ASFPasswordChanger.Localization {
         internal static string Assert {
             get {
                 return ResourceManager.GetString("Assert", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 BotInterval值过小, 容易被Buff封禁, 推荐设定为30或者更大的值 的本地化字符串。
-        /// </summary>
-        internal static string BotIntervalWarn {
-            get {
-                return ResourceManager.GetString("BotIntervalWarn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 BuffNotification网络请求失败, Code: {0} 的本地化字符串。
-        /// </summary>
-        internal static string BotNotificationRequestFailedSkip {
-            get {
-                return ResourceManager.GetString("BotNotificationRequestFailedSkip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 BuffCheckInterval值过小, 容易被Buff封禁, 推荐设定为180或者更大的值 的本地化字符串。
-        /// </summary>
-        internal static string BuffCheckIntervalWarn {
-            get {
-                return ResourceManager.GetString("BuffCheckIntervalWarn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Cookies无效, 请检查Buff是否登录以及Cookies是否完整 的本地化字符串。
-        /// </summary>
-        internal static string BuffCookiesInvalid {
-            get {
-                return ResourceManager.GetString("BuffCookiesInvalid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Cookies有效, Cookies信息保存{0} 的本地化字符串。
-        /// </summary>
-        internal static string BuffCookiesValid {
-            get {
-                return ResourceManager.GetString("BuffCookiesValid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 BuffCookies未设置, 正确设置前插件将不会工作 的本地化字符串。
-        /// </summary>
-        internal static string BuffCookiesWarn {
-            get {
-                return ResourceManager.GetString("BuffCookiesWarn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 可以使用命令 UPDATECOOKIES Cookies 自动为匹配机器人设置Buff Cookies 的本地化字符串。
-        /// </summary>
-        internal static string BuffCookiesWarn2 {
-            get {
-                return ResourceManager.GetString("BuffCookiesWarn2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 或者用命令 UPDATECOOKIESBOT Bot Cookies 为指定机器人设定Buff Cookies 的本地化字符串。
-        /// </summary>
-        internal static string BuffCookiesWarn3 {
-            get {
-                return ResourceManager.GetString("BuffCookiesWarn3", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 未设置Cookies的机器人将不会监听交易事件 的本地化字符串。
-        /// </summary>
-        internal static string BuffCookiesWarn4 {
-            get {
-                return ResourceManager.GetString("BuffCookiesWarn4", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 检测到共有 {0} 个Csgo订单, {1} 个Dota2订单等待发货 的本地化字符串。
-        /// </summary>
-        internal static string BuffDeliverCount {
-            get {
-                return ResourceManager.GetString("BuffDeliverCount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 检测到共有 {0} 个物品等待发货 的本地化字符串。
-        /// </summary>
-        internal static string BuffDeliverItemCount {
-            get {
-                return ResourceManager.GetString("BuffDeliverItemCount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 BuffSteamTrade网络请求失败, Code: {0} 的本地化字符串。
-        /// </summary>
-        internal static string BuffSteamTradeRequestFailed {
-            get {
-                return ResourceManager.GetString("BuffSteamTradeRequestFailed", resourceCulture);
             }
         }
         
@@ -286,92 +124,11 @@ namespace ASFPasswordChanger.Localization {
         }
         
         /// <summary>
-        ///   查找类似 同意报价失败, ID: {0} 的本地化字符串。
-        /// </summary>
-        internal static string ConfitmTradeFailed {
-            get {
-                return ResourceManager.GetString("ConfitmTradeFailed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Cookies {0}, 交易缓存数: {1} 的本地化字符串。
-        /// </summary>
-        internal static string CookiesAndTradeCacheCount {
-            get {
-                return ResourceManager.GetString("CookiesAndTradeCacheCount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Cookies未设置 的本地化字符串。
-        /// </summary>
-        internal static string CookiesNotSet {
-            get {
-                return ResourceManager.GetString("CookiesNotSet", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Cookies有效, 但是找不到匹配的机器人, 添加失败 的本地化字符串。
-        /// </summary>
-        internal static string CookiesValidButNoBotFound {
-            get {
-                return ResourceManager.GetString("CookiesValidButNoBotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 当前Cookies无效, 请重新设置 的本地化字符串。
-        /// </summary>
-        internal static string CurrentCookiesInvalid {
-            get {
-                return ResourceManager.GetString("CurrentCookiesInvalid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 未设置Cookies 的本地化字符串。
-        /// </summary>
-        internal static string CurrentCookiesNotSet {
-            get {
-                return ResourceManager.GetString("CurrentCookiesNotSet", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 当前Cookies有效 的本地化字符串。
-        /// </summary>
-        internal static string CurrentCookiesValid {
-            get {
-                return ResourceManager.GetString("CurrentCookiesValid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 zh-Hans 的本地化字符串。
         /// </summary>
         internal static string CurrentLanguage {
             get {
                 return ResourceManager.GetString("CurrentLanguage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 删除Buff Cookies失败, 尚未设置此机器人的Cookies 的本地化字符串。
-        /// </summary>
-        internal static string DeleteCookiesFailedNotSetYet {
-            get {
-                return ResourceManager.GetString("DeleteCookiesFailedNotSetYet", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 删除Buff Cookies成功 的本地化字符串。
-        /// </summary>
-        internal static string DeleteCookiesSuccess {
-            get {
-                return ResourceManager.GetString("DeleteCookiesSuccess", resourceCulture);
             }
         }
         
@@ -457,15 +214,6 @@ namespace ASFPasswordChanger.Localization {
         }
         
         /// <summary>
-        ///   查找类似  - 插件版本: {0} 的本地化字符串。
-        /// </summary>
-        internal static string ErrorLogPluginVersion {
-            get {
-                return ResourceManager.GetString("ErrorLogPluginVersion", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 ASFPasswordChanger 遇到错误, 日志如下 的本地化字符串。
         /// </summary>
         internal static string ErrorLogTitle {
@@ -480,33 +228,6 @@ namespace ASFPasswordChanger.Localization {
         internal static string Failure {
             get {
                 return ResourceManager.GetString("Failure", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 读取插件发行版信息失败! 的本地化字符串。
-        /// </summary>
-        internal static string GetReleaseInfoFailed {
-            get {
-                return ResourceManager.GetString("GetReleaseInfoFailed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 无效 的本地化字符串。
-        /// </summary>
-        internal static string Invalid {
-            get {
-                return ResourceManager.GetString("Invalid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 交易前库存状态: 的本地化字符串。
-        /// </summary>
-        internal static string InventoryStatusBeforeTrade {
-            get {
-                return ResourceManager.GetString("InventoryStatusBeforeTrade", resourceCulture);
             }
         }
         
@@ -538,74 +259,11 @@ namespace ASFPasswordChanger.Localization {
         }
         
         /// <summary>
-        ///   查找类似 当前Bot未设置两步验证令牌, 跳过执行 的本地化字符串。
-        /// </summary>
-        internal static string No2FaSetSkip {
-            get {
-                return ResourceManager.GetString("No2FaSetSkip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 当前设置下无可显示的内容 的本地化字符串。
-        /// </summary>
-        internal static string NoAvilableItemToShow {
-            get {
-                return ResourceManager.GetString("NoAvilableItemToShow", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 找不到可用的机器人, 添加失败 的本地化字符串。
-        /// </summary>
-        internal static string NoBotAvilable {
-            get {
-                return ResourceManager.GetString("NoBotAvilable", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 未设置有效的 BuffCookies, 跳过执行 的本地化字符串。
-        /// </summary>
-        internal static string NoBuffCookiesSkip {
-            get {
-                return ResourceManager.GetString("NoBuffCookiesSkip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 无信息 的本地化字符串。
         /// </summary>
         internal static string NoInformation {
             get {
                 return ResourceManager.GetString("NoInformation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 无等待自动发货的物品 的本地化字符串。
-        /// </summary>
-        internal static string NoItemToDeliver {
-            get {
-                return ResourceManager.GetString("NoItemToDeliver", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 未找到匹配的交易报价, 可能交易报价已取消, Id: {0} 的本地化字符串。
-        /// </summary>
-        internal static string NoMatchTradeFound {
-            get {
-                return ResourceManager.GetString("NoMatchTradeFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 无Trade缓存信息, 跳过执行 的本地化字符串。
-        /// </summary>
-        internal static string NoTradeCacheSkip {
-            get {
-                return ResourceManager.GetString("NoTradeCacheSkip", resourceCulture);
             }
         }
         
@@ -628,47 +286,20 @@ namespace ASFPasswordChanger.Localization {
         }
         
         /// <summary>
+        ///   查找类似 推荐安装 ASFEnhance, 支持自动更新插件 的本地化字符串。
+        /// </summary>
+        internal static string PluginStandalongMode {
+            get {
+                return ResourceManager.GetString("PluginStandalongMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 {0} 版本 {1} 的本地化字符串。
         /// </summary>
         internal static string PluginVer {
             get {
                 return ResourceManager.GetString("PluginVer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 读取Cookies文件出错 的本地化字符串。
-        /// </summary>
-        internal static string ReadCookiesFailed {
-            get {
-                return ResourceManager.GetString("ReadCookiesFailed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 收到新交易, ID:{0} 的本地化字符串。
-        /// </summary>
-        internal static string ReceivedNewTradeCache {
-            get {
-                return ResourceManager.GetString("ReceivedNewTradeCache", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 拒绝 的本地化字符串。
-        /// </summary>
-        internal static string Reject {
-            get {
-                return ResourceManager.GetString("Reject", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 拒绝交易{0}, Id: {1} 的本地化字符串。
-        /// </summary>
-        internal static string RejectTrade {
-            get {
-                return ResourceManager.GetString("RejectTrade", resourceCulture);
             }
         }
         
@@ -687,15 +318,6 @@ namespace ASFPasswordChanger.Localization {
         internal static string SteamIdInvalid {
             get {
                 return ResourceManager.GetString("SteamIdInvalid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 {0}交易报价{1}, Msg: {2}, Id: {3} 的本地化字符串。
-        /// </summary>
-        internal static string SteamTradeDetail {
-            get {
-                return ResourceManager.GetString("SteamTradeDetail", resourceCulture);
             }
         }
         
@@ -736,60 +358,6 @@ namespace ASFPasswordChanger.Localization {
         }
         
         /// <summary>
-        ///   查找类似 {0} 已初始化缓存, 无法初始化交易缓存 的本地化字符串。
-        /// </summary>
-        internal static string TradeCacheAlreadyInit {
-            get {
-                return ResourceManager.GetString("TradeCacheAlreadyInit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 {0} 未初始化缓存, 无法记录交易 的本地化字符串。
-        /// </summary>
-        internal static string TradeCacheNotInit {
-            get {
-                return ResourceManager.GetString("TradeCacheNotInit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 {0} 未初始化缓存, 无法清空交易缓存 的本地化字符串。
-        /// </summary>
-        internal static string TradeCacheNotInitCantClear {
-            get {
-                return ResourceManager.GetString("TradeCacheNotInitCantClear", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 交易已完成, ID: {0} =&gt; {1} 的本地化字符串。
-        /// </summary>
-        internal static string TradeComplete {
-            get {
-                return ResourceManager.GetString("TradeComplete", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 交易物品不匹配, 自动拒绝报价, Id: {0} 的本地化字符串。
-        /// </summary>
-        internal static string TradeDismatchAutoReject {
-            get {
-                return ResourceManager.GetString("TradeDismatchAutoReject", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 交易物品匹配, 自动发货, Id: {0} 的本地化字符串。
-        /// </summary>
-        internal static string TradeMatchAtuoAccept {
-            get {
-                return ResourceManager.GetString("TradeMatchAtuoAccept", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 {0}: {1} 的本地化字符串。
         /// </summary>
         internal static string TwoItem {
@@ -822,33 +390,6 @@ namespace ASFPasswordChanger.Localization {
         internal static string UpdateTips {
             get {
                 return ResourceManager.GetString("UpdateTips", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 更新交易, ID: {0} 的本地化字符串。
-        /// </summary>
-        internal static string UpdateTradeCache {
-            get {
-                return ResourceManager.GetString("UpdateTradeCache", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 有效 的本地化字符串。
-        /// </summary>
-        internal static string Valid {
-            get {
-                return ResourceManager.GetString("Valid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 写入Cookies文件出错 的本地化字符串。
-        /// </summary>
-        internal static string WriteCookiesFailed {
-            get {
-                return ResourceManager.GetString("WriteCookiesFailed", resourceCulture);
             }
         }
     }

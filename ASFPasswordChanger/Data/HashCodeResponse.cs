@@ -1,11 +1,11 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ASFPasswordChanger.Data;
 public sealed record HashCodeResponse
 {
-    [JsonProperty(PropertyName = "hash")]
+    [JsonPropertyName("hash")]
     public string? Hash { get; set; }
 
-    [JsonProperty(PropertyName = "errorMsg")]
+    [JsonPropertyName("errorMsg")]
     public string? ErrorMsg { get; set; }
 }

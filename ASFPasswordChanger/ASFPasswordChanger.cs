@@ -2,43 +2,45 @@ using ArchiSteamFarm.Core;
 using ArchiSteamFarm.Plugins.Interfaces;
 using ArchiSteamFarm.Steam;
 using ASFPasswordChanger.Data;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.ComponentModel;
 using System.Composition;
-using System.Text;
+using System.Reflection;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace ASFPasswordChanger;
 
 [Export(typeof(IPlugin))]
-internal sealed class ASFPasswordChanger : IASF, IBotCommand2, IBotConnection
+internal sealed class ASFPasswordChanger : IASF, IBotCommand2
 {
-    public string Name => nameof(ASFPasswordChanger);
+    public string Name => "ASF Password Changer";
     public Version Version => Utils.MyVersion;
 
-    [JsonProperty]
+    private bool ASFEBridge;
+
+    [JsonInclude]
     public static PluginConfig Config => Utils.Config;
 
-    private static Timer? StatisticTimer;
+    private Timer? StatisticTimer;
 
     /// <summary>
     /// ASF启动事件
     /// </summary>
     /// <param name="additionalConfigProperties"></param>
     /// <returns></returns>
-    public Task OnASFInit(IReadOnlyDictionary<string, JToken>? additionalConfigProperties = null)
+    public Task OnASFInit(IReadOnlyDictionary<string, JsonElement>? additionalConfigProperties = null)
     {
         PluginConfig? config = null;
 
         if (additionalConfigProperties != null)
         {
-            foreach ((string configProperty, JToken configValue) in additionalConfigProperties)
+            foreach (var (configProperty, configValue) in additionalConfigProperties)
             {
-                if (configProperty == nameof(ASFPasswordChanger) && configValue.Type == JTokenType.Object)
+                if (configProperty == "ASFEnhance" && configValue.ValueKind == JsonValueKind.Object)
                 {
                     try
                     {
-                        config = configValue.ToObject<PluginConfig>();
+                        config = configValue.Deserialize<PluginConfig>();
                         if (config != null)
                         {
                             break;
@@ -53,8 +55,6 @@ internal sealed class ASFPasswordChanger : IASF, IBotCommand2, IBotConnection
         }
 
         Utils.Config = config ?? new();
-
-        StringBuilder warning = new();
 
         //统计
         if (Config.Statistic)
@@ -71,25 +71,6 @@ internal sealed class ASFPasswordChanger : IASF, IBotCommand2, IBotConnection
             );
         }
 
-        //禁用命令
-        if (Config.DisabledCmds == null)
-        {
-            Config.DisabledCmds = new();
-        }
-        else
-        {
-            for (int i = 0; i < Config.DisabledCmds.Count; i++)
-            {
-                Config.DisabledCmds[i] = Config.DisabledCmds[i].ToUpperInvariant();
-            }
-        }
-
-        if (warning.Length > 0)
-        {
-            warning.Insert(0, Environment.NewLine);
-            Utils.Logger.LogGenericWarning(warning.ToString());
-        }
-
         return Task.CompletedTask;
     }
 
@@ -99,102 +80,68 @@ internal sealed class ASFPasswordChanger : IASF, IBotCommand2, IBotConnection
     /// <returns></returns>
     public Task OnLoaded()
     {
-        StringBuilder message = new("\n");
-        message.AppendLine(Static.Line);
-        message.AppendLine(Static.Logo);
-        message.AppendLine(string.Format(Langs.PluginVer, nameof(ASFPasswordChanger), Utils.MyVersion.ToString()));
-        message.AppendLine(Langs.PluginContact);
-        message.AppendLine(Langs.PluginInfo);
-        message.AppendLine(Static.Line);
+        Utils.Logger.LogGenericInfo(Langs.PluginContact);
+        Utils.Logger.LogGenericInfo(Langs.PluginInfo);
 
-        string pluginFolder = Path.GetDirectoryName(Utils.MyLocation) ?? ".";
-        string backupPath = Path.Combine(pluginFolder, $"{nameof(ASFPasswordChanger)}.bak");
-        bool existsBackup = File.Exists(backupPath);
-        if (existsBackup)
+        var flag = BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
+        var handler = typeof(ASFPasswordChanger).GetMethod(nameof(ResponseCommand), flag);
+
+        const string pluginId = nameof(ASFPasswordChanger);
+        const string cmdPrefix = "SAS";
+        const string? repoName = null;
+
+        ASFEBridge = AdapterBridge.InitAdapter(Name, pluginId, cmdPrefix, repoName, handler);
+
+        if (ASFEBridge)
         {
-            try
-            {
-                File.Delete(backupPath);
-                message.AppendLine(Langs.CleanUpOldBackup);
-            }
-            catch (Exception e)
-            {
-                Utils.Logger.LogGenericException(e);
-                message.AppendLine(Langs.CleanUpOldBackupFailed);
-            }
+            Utils.Logger.LogGenericDebug(Langs.ASFEnhanceRegisterSuccess);
         }
         else
         {
-            message.AppendLine(Langs.ASFEVersionTips);
-            message.AppendLine(Langs.ASFEUpdateTips);
+            Utils.Logger.LogGenericInfo(Langs.ASFEnhanceRegisterFailed);
+            Utils.Logger.LogGenericWarning(Langs.PluginStandalongMode);
         }
-
-        message.AppendLine(Static.Line);
-
-        Utils.Logger.LogGenericInfo(message.ToString());
 
         return Task.CompletedTask;
     }
+
+    /// <summary>
+    /// 获取插件信息
+    /// </summary>
+    private static string? PluginInfo => string.Format("{0} {1}", nameof(ASFPasswordChanger), Utils.MyVersion);
 
     /// <summary>
     /// 处理命令
     /// </summary>
     /// <param name="bot"></param>
     /// <param name="access"></param>
-    /// <param name="message"></param>
     /// <param name="args"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    private static async Task<string?> ResponseCommand(Bot bot, EAccess access, string message, string[] args)
+    private static Task<string?>? ResponseCommand(Bot bot, EAccess access, string cmd, string[] args)
     {
-        string cmd = args[0].ToUpperInvariant();
-
-        if (cmd.StartsWith("ABB."))
-        {
-            cmd = cmd[4..];
-        }
-        else
-        {
-            //跳过禁用命令
-            if (Config.DisabledCmds?.Contains(cmd) == true)
-            {
-                Utils.Logger.LogGenericInfo("Command {0} is disabled!");
-                return null;
-            }
-        }
-
         int argLength = args.Length;
-        switch (argLength)
+        return argLength switch
         {
-            case 0:
-                throw new InvalidOperationException(nameof(args));
-            case 1: //不带参数
-                switch (cmd)
-                {
-                    ////Core
-                    //case "CHANGEPASSWORD" when access >= EAccess.Master:
-                    //case "CP" when access >= EAccess.Master:
-                    //    return await Core.Command.ResponseTest(bot).ConfigureAwait(false);
+            0 => throw new InvalidOperationException(nameof(args.Length)),
+            1 => cmd switch //不带参数
+            {
+                //PluginInfo
+                "ASFPASSWORDcHANGER" or
+                "APC" when access >= EAccess.Master =>
+                    Task.FromResult(PluginInfo),
+                //Core
+                "CHANGEPASSWORD" or
+                "CP" when argLength == 3 && access >= EAccess.Master =>
+                    Core.Command.ResponseTest(args[1], args[2]),
+                "CHANGEPASSWORD" or
+                "CP" when argLength == 2 && access >= EAccess.Master =>
+                    Core.Command.ResponseTest(bot, args[1]),
 
-
-                    default:
-                        return null;
-                }
-            default: //带参数
-                switch (cmd)
-                {
-                    //Core
-                    case "CHANGEPASSWORD" when argLength == 3 && access >= EAccess.Master:
-                    case "CP" when argLength == 3 && access >= EAccess.Master:
-                        return await Core.Command.ResponseTest(args[1], args[2]).ConfigureAwait(false);
-                    case "CHANGEPASSWORD" when argLength == 2 && access >= EAccess.Master:
-                    case "CP" when argLength == 2 && access >= EAccess.Master:
-                        return await Core.Command.ResponseTest(bot, args[1]).ConfigureAwait(false);
-
-                    default:
-                        return null;
-                }
-        }
+                _ => null,
+            },
+            _ => null,
+        };
     }
 
     /// <summary>
@@ -210,6 +157,11 @@ internal sealed class ASFPasswordChanger : IASF, IBotCommand2, IBotConnection
     /// <exception cref="InvalidOperationException"></exception>
     public async Task<string?> OnBotCommand(Bot bot, EAccess access, string message, string[] args, ulong steamId = 0)
     {
+        if (ASFEBridge)
+        {
+            return null;
+        }
+
         if (!Enum.IsDefined(access))
         {
             throw new InvalidEnumArgumentException(nameof(access), (int)access, typeof(EAccess));
@@ -217,50 +169,32 @@ internal sealed class ASFPasswordChanger : IASF, IBotCommand2, IBotConnection
 
         try
         {
-            return await ResponseCommand(bot, access, message, args).ConfigureAwait(false);
+            var cmd = args[0].ToUpperInvariant();
+
+            if (cmd.StartsWith("SAS."))
+            {
+                cmd = cmd[4..];
+            }
+
+            var task = ResponseCommand(bot, access, cmd, args);
+            if (task != null)
+            {
+                return await task.ConfigureAwait(false);
+            }
+            else
+            {
+                return null;
+            }
         }
         catch (Exception ex)
         {
-            string version = await bot.Commands.Response(EAccess.Owner, "VERSION").ConfigureAwait(false) ?? "Unknown";
-            var i = version.LastIndexOf('V');
-            if (i >= 0)
-            {
-                version = version[++i..];
-            }
-            string cfg = JsonConvert.SerializeObject(Config, Formatting.Indented);
-
-            StringBuilder sb = new();
-            sb.AppendLine(Langs.ErrorLogTitle);
-            sb.AppendLine(Static.Line);
-            sb.AppendLine(string.Format(Langs.ErrorLogOriginMessage, message));
-            sb.AppendLine(string.Format(Langs.ErrorLogAccess, access.ToString()));
-            sb.AppendLine(string.Format(Langs.ErrorLogASFVersion, version));
-            sb.AppendLine(string.Format(Langs.ErrorLogPluginVersion, Utils.MyVersion));
-            sb.AppendLine(Static.Line);
-            sb.AppendLine(cfg);
-            sb.AppendLine(Static.Line);
-            sb.AppendLine(string.Format(Langs.ErrorLogErrorName, ex.GetType()));
-            sb.AppendLine(string.Format(Langs.ErrorLogErrorMessage, ex.Message));
-            sb.AppendLine(ex.StackTrace);
-
             _ = Task.Run(async () =>
             {
                 await Task.Delay(500).ConfigureAwait(false);
-                sb.Insert(0, '\n');
-                Utils.Logger.LogGenericError(sb.ToString());
+                Utils.Logger.LogGenericException(ex);
             }).ConfigureAwait(false);
 
-            return sb.ToString();
+            return ex.StackTrace;
         }
-    }
-
-    public Task OnBotDisconnected(Bot bot, SteamKit2.EResult reason)
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task OnBotLoggedOn(Bot bot)
-    {
-        return Task.CompletedTask;
     }
 }
