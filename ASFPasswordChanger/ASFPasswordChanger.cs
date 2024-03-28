@@ -130,6 +130,12 @@ internal sealed class ASFPasswordChanger : IASF, IBotCommand2
                 "ASFPASSWORDcHANGER" or
                 "APC" when access >= EAccess.Master =>
                     Task.FromResult(PluginInfo),
+
+                _ => null,
+            },
+            _ => cmd switch //不带参数
+            {
+
                 //Core
                 "CHANGEPASSWORD" or
                 "CP" when argLength == 3 && access >= EAccess.Master =>
@@ -140,7 +146,6 @@ internal sealed class ASFPasswordChanger : IASF, IBotCommand2
 
                 _ => null,
             },
-            _ => null,
         };
     }
 
