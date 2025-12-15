@@ -120,7 +120,7 @@ internal static partial class Command
             return bot.FormatBotResponse(string.Format("RecoveryChangePassword 失败, {0}", respVerifyPasswd?.ErrorMsg ?? "NULL"));
         }
 
-        bot.Actions.Stop();
+        await bot.Actions.Stop().ConfigureAwait(false);
 
         return bot.FormatBotResponse($"修改密码成功, 机器人的新密码为 {newPasswd}");
     }
