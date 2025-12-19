@@ -57,9 +57,9 @@ internal sealed class ASFPasswordChanger : IASF, IBotCommand2
         Utils.Config = config ?? new();
 
         //统计
-        if (Config.Statistic)
+        if (Config.Statistic && !ASFEBridge)
         {
-            Uri request = new("https://asfe.chrxw.com/");
+            Uri request = new("https://asfe.chrxw.com/asfpasswordchanger");
             StatisticTimer = new Timer(
                 async (_) =>
                 {
@@ -87,7 +87,7 @@ internal sealed class ASFPasswordChanger : IASF, IBotCommand2
         var handler = typeof(ASFPasswordChanger).GetMethod(nameof(ResponseCommand), flag);
 
         const string pluginId = nameof(ASFPasswordChanger);
-        const string cmdPrefix = "SAS";
+        const string cmdPrefix = "APC";
         const string? repoName = null;
 
         ASFEBridge = AdapterBridge.InitAdapter(Name, pluginId, cmdPrefix, repoName, handler);
@@ -176,7 +176,7 @@ internal sealed class ASFPasswordChanger : IASF, IBotCommand2
         {
             var cmd = args[0].ToUpperInvariant();
 
-            if (cmd.StartsWith("SAS."))
+            if (cmd.StartsWith("APC."))
             {
                 cmd = cmd[4..];
             }
