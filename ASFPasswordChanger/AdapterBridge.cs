@@ -1,6 +1,7 @@
 using System.Reflection;
 
 namespace ASFPasswordChanger;
+
 internal static class AdapterBridge
 {
     /// <summary>
